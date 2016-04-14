@@ -1,36 +1,49 @@
 -- Data module
 -- Gets data from json file
+local data = {}
 
 -- External modules
-json = require("json")
+local json = require("json")
 
 local dataFileName = "data.json"
+local cachedParsedData = {}
 
-local cachedParsedData = nil
+-- Checks if file exists
+function data.dataFileExists()
+	local f = io.open(dataFileName, "r")
+	if f ~= nil then
+		io.close(f)
+		return true 
+	end
+	return false
+end
 
--- Reads a file and returns the (json) parsed table
-function getData(fileName)
-	local file = io.open(fileName, "r")
+-- Reads file for the first time
+if data.dataFileExists() then
+	local file = io.open(dataFileName, "r")
 	local fileString = file:read() 
-	return json.decode(fileString)
+	cachedParsedData = json.decode(fileString)
+	file:close()
+end
 
 -- Encodes data into json and writes it to a file
-function writeData(fileName, parsedData)
+local function writeData(fileName, parsedData)
 	local file = io.open(fileName, "w")
-	local fileString = json:encode(parsedData)
-	file.write(fileString)
+	local fileString = json.encode(parsedData)
+	file:write(fileString)
+	file:close()
+end
 
 -- Gets a property from data table
-function getProperty(propName)
-	if cachedParsedData == nil then
-		cachedParsedData = getData(dataFileName)
-	
+function data.getProperty(propName)
 	return cachedParsedData[propName]
+end
 
 -- Writes a property to the data table and persists it to the file
-function writeProperty(propName, value)
-	if cachedParsedData == nil then
-		cachedParsedData = getData(dataFileName)
-
+function data.writeProperty(propName, value)
 	cachedParsedData[propName] = value
 	writeData(dataFileName, cachedParsedData)
+end
+
+
+return data
