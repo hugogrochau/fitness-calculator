@@ -4,7 +4,6 @@
 -- External modules
 json = require("json")
 
-
 local dataFileName = "data.json"
 
 local cachedParsedData = nil
