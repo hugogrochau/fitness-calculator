@@ -1,4 +1,4 @@
-# Meu Querido Diário
+# Diário
 
 ## 2016-04-12
 * Estudamos o sintaxe de Lua e fizemos um "brainstorming" para decidir o projeto
