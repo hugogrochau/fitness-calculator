@@ -27,7 +27,6 @@ local statistics = menu.statistics()
 ----------------------------------------
 -- Variables to calculate
 ----------------------------------------
-
 local height = initialInfo['height']
 local name   = initialInfo['name']
 local age    = initialInfo['age']
