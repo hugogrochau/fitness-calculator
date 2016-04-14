@@ -1,15 +1,18 @@
+-- Fitness calculator module
+-- Contains various formulas for calculating fitness-related statistics
+
 local fitnesscalculator = {}
 
 
--- calculates the body mass index of a person
--- receives weight and height and returns the bmi
+-- Calculates the body mass index of a person
+-- Receives weight and height and returns the bmi
 function fitnesscalculator.bmi(weight, height)
     local heightInMeters = height / 100
     return weight / (heightInMeters * heightInMeters);
 end
 
--- calculates the body mass ratio of a person
--- receives the weight, height, age and gender and returns the bmr
+-- Calculates the body mass ratio of a person
+-- Receives the weight, height, age and gender and returns the bmr
 function fitnesscalculator.bmr(weight, height, age, gender) 
     local result = 0
     if gender == 'm' then
@@ -20,8 +23,8 @@ function fitnesscalculator.bmr(weight, height, age, gender)
     return result
 end
 
--- calculates the ideal body mass index
--- receives the weight, height, age and gender and returns the ideal bmi
+-- Calculates the ideal body mass index
+-- Receives the weight, height, age and gender and returns the ideal bmi
 function fitnesscalculator.idealBmi(weight, height, age, gender) 
     local result = 0
     if gender == 'm' then
@@ -32,8 +35,8 @@ function fitnesscalculator.idealBmi(weight, height, age, gender)
     return result
 end
 
--- calculates the body fate percentage
--- receives the weight, height, age and gender and returns the body fat percentage
+-- Calculates the body fate percentage
+-- Receives the weight, height, age and gender and returns the body fat percentage
 function fitnesscalculator.bodyFat(weight, height, age, gender)
    local result = 0
    local sex = 0
