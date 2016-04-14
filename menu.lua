@@ -1,4 +1,5 @@
--- Define module menu
+-- Menu module
+-- Contains various menus for interacting with the user
 local menu = {}
 
 -- Import external modules
@@ -51,8 +52,8 @@ function menu.results(bmi, bmr, idealBmi, bodyFat)
     print('---- BODY MASS INDEX ----')
     print(bmi)
 
-    -- Print body mass ratio
-    print('---- BODY MASS RATIO ----')
+    -- Print basal metabolic rate
+    print('---- BASAL METABOLIC RATE ----')
     print(bmr)
 
     -- Print ideal body mass index
