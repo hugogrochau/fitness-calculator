@@ -1,64 +1,45 @@
--- Fitness tracker by Hugo Grochau (hugogrochau) and Gustavo Marques (gugamm)
+-- Fitness calculator by Hugo Grochau (hugogrochau) and Gustavo Marques (gugamm)
 
--- Main Module
+-- Import external modules
+local data              = require("data")
+local menu              = require("menu")
+local fitnesscalculator = require("fitnesscalculator")
 
-local json = require("json")
-
---[[ 
-	FName : printMenu
-	FArgs   : null
-	FRet     : null
-	FCom  : print a menu in console
- --]]
-function printMenu()
-	io.write('******************\n');
-	io.write('*      MENU      *\n');
-	io.write('******************\n');
-	io.write('\n');
-	io.write('1- Check Statistics\n');
-	io.write('2- Add new data\n');
-	io.write('3- Save and exit\n');
-	io.write('\n');
-	io.write('Option : ');
+-- If it's the first time the user is running the program
+local initialInfo = {}
+if not data.dataFileExists() then
+	initialInfo = menu.initial()
+	-- Save their name, age and height
+	for k, v in pairs(initialInfo) do
+  		data.writeProperty(k, v)
+	end
+else
+   initialInfo['name']   = data.getProperty('name')
+   initialInfo['age']    = data.getProperty('age')
+   initialInfo['gender'] = data.getProperty('gender')
+   initialInfo['height'] = data.getProperty('height')
 end
 
---[[ 
-	FName : load
-	FArgs   : null
-	FRet     : null
-	FCom  : load previous data from pdata file (json)
- --]]
-function load()
+-- Get weight and waist from user
+local statistics = menu.statistics()
 
-end
 
---[[ 
-	FName : save
-	FArgs   : null
-	FRet     : null
-	FCom  : save  data to pdata file (json)
- --]]
-function save()
+----------------------------------------
+-- Variables to calculate
+----------------------------------------
 
-end
+local height = initialInfo['height']
+local name   = initialInfo['name']
+local age    = initialInfo['age']
+local gender = initialInfo['gender']
+local weight = statistics['weight']
+local waist  = statistics['waist']
 
-function main() 
-	local option;
-	os.execute("cls"); --[[Clear screen (Only for windows) --]]
-	repeat 
-		printMenu();
-		option =  0 + io.read();  --[[ Convert io.read to number --]]
-		
-		if option == 1 then
-		
-		elseif option == 2 then
-		
-		elseif option ~= 3 then
-			print('Please select a valid option\n' );
-		end
-	until option == 3; 
-	save();
-	print('Goodbye!');
-end
+-- Calculate all indexes 
+local bmi      = fitnesscalculator.bmi(weight, height)
+local bmr      = fitnesscalculator.bmr(weight, height, age, gender)
+local idealBmi = fitnesscalculator.idealBmi(weight, height, age, gender) 
+local bodyFat  = fitnesscalculator.bodyFat(weight, height, age, gender)
 
-main();
+-- Print all results to the screen
+menu.results(bmi, bmr, idealBmi, bodyFat)
